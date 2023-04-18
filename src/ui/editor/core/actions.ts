@@ -198,8 +198,8 @@ export function addParameter(quest: Quest): Quest {
 
   const createParameterCondition = () => {
     const condition: JumpParameterCondition = {
-      mustFrom: 0,
-      mustTo: 0,
+      mustFrom: NaN,
+      mustTo: NaN,
       mustEqualValues: [],
       mustEqualValuesEqual: true,
       mustModValues: [],

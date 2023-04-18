@@ -836,8 +836,8 @@ function parseJumpQmm(r: Reader, paramsCount: number, questParams: QMParam[]): J
       sound: undefined,
     });
     paramsConditions.push({
-      mustFrom: questParams[i].min,
-      mustTo: questParams[i].max,
+      mustFrom: NaN,
+      mustTo: NaN,
       mustEqualValues: [],
       mustEqualValuesEqual: false,
       mustModValues: [],
@@ -848,8 +848,12 @@ function parseJumpQmm(r: Reader, paramsCount: number, questParams: QMParam[]): J
   for (let i = 0; i < affectedConditionsParamsCount; i++) {
     const paramId = r.int32();
 
-    const mustFrom = r.int32();
-    const mustTo = r.int32();
+    const mustFromTemp = r.int32(); //redacted
+    const mustFrom = questParams[paramId - 1].min == mustFromTemp ? NaN : mustFromTemp; //redacted
+
+    const mustToTemp = r.int32(); // redacted
+    const mustTo = questParams[paramId - 1].max == mustToTemp ? NaN : mustToTemp; // redacted
+
 
     const mustEqualValuesCount = r.int32();
     const mustEqualValuesEqual = !!r.byte();

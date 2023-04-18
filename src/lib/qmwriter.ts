@@ -262,8 +262,8 @@ export function writeQmm(quest: DeepImmutable<QM>) {
     w.int32(affectedJumpConditionParams.length);
     for (const { cond, idx } of affectedJumpConditionParams) {
       w.int32(idx + 1);
-      w.int32(cond.mustFrom);
-      w.int32(cond.mustTo);
+      w.int32(!isNaN(cond.mustFrom) ? cond.mustFrom : quest.params[idx].min); //redacted
+      w.int32(!isNaN(cond.mustTo) ? cond.mustTo : quest.params[idx].max); //redacted
 
       w.int32(cond.mustEqualValues.length);
       w.byte(cond.mustEqualValuesEqual ? 1 : 0);
