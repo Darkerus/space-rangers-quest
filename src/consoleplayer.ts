@@ -11,7 +11,7 @@ import * as fs from "fs";
 import * as assert from "assert";
 
 import { QMPlayer } from "./lib/qmplayer";
-const data = fs.readFileSync(__dirname + "/../borrowed/qm/КР 1/Boat.qm");
+const data = fs.readFileSync(__dirname + "/../borrowed/qm/start/grogstorypart_116_beta.qmm");
 //const data = fs.readFileSync('../Bank.qm');
 
 const qm = parse(data);
@@ -24,6 +24,8 @@ function showAndAsk() {
   rl.question("> ", (answer) => {
     const id = parseInt(answer);
     if (!isNaN(id) && state.choices.find((x) => x.jumpId === id)) {
+      fs.writeFileSync("log.txt", JSON.stringify(player.getSaving()) + ",", { flag: "a" });
+      fs.writeFileSync("log.txt", JSON.stringify(player.getSaving()) + ",", { flag: "a" });
       player.performJump(id);
     } else {
       console.info(`Wrong input!`);
