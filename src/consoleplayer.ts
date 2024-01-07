@@ -24,8 +24,6 @@ function showAndAsk() {
   rl.question("> ", (answer) => {
     const id = parseInt(answer);
     if (!isNaN(id) && state.choices.find((x) => x.jumpId === id)) {
-      fs.writeFileSync("log.txt", JSON.stringify(player.getSaving()) + ",", { flag: "a" });
-      fs.writeFileSync("log.txt", JSON.stringify(player.getSaving()) + ",", { flag: "a" });
       player.performJump(id);
     } else {
       console.info(`Wrong input!`);

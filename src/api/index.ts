@@ -1,16 +1,59 @@
-import zlib from "zlib";
+import express from "express";
+import { QMStepGame } from "./QMStepGame";
+import { decompressToObject, compressObject } from "./compressor";
 
-function compressObject(str: string) {
-  const newStr = JSON.stringify(JSON.parse(str));
-  console.log(newStr);
-  console.log();
+const app = express();
 
-  const compressed = zlib.gzipSync(newStr, { level: zlib.constants.Z_BEST_COMPRESSION });
-  return compressed.toString("base64");
-}
+const qmGame = new QMStepGame("grogstorypart_116_beta");
 
-function decompressToObject(str: string) {
-  const compressed = Buffer.from(str, "base64");
-  const decompressed = zlib.unzipSync(compressed).toString();
-  return JSON.parse(decompressed);
-}
+app.use(express.json());
+app.use((req, res, next) => {
+  const json = req.body;
+  if (json.state === undefined) {
+    res.send("No state in request").status(401);
+    return;
+  }
+  next();
+});
+
+app.post("/load", (req, res) => {
+  const json = req.body;
+  const state = qmGame.showStage(decompressToObject(json.state));
+  res.send(state);
+});
+
+app.post("/jump", (req, res) => {
+  const json = req.body;
+  const state = decompressToObject(json.state);
+  const stage = qmGame.showStage(state);
+  const nextJumpId = json.nextJumpId;
+
+  if (!isNaN(json.nextJumpId) && stage.choices.find((x: any) => x.jumpId === nextJumpId)) {
+    const newState = qmGame.nextStage(state, nextJumpId);
+    const newStage = qmGame.showStage(newState);
+
+    res.send(
+      JSON.stringify({
+        state: compressObject(newState),
+        stageIngo: newStage,
+      }),
+    );
+    return;
+  }
+
+  res.send("No valid JumpId in request").status(401);
+});
+
+app.all("/start", (req, res) => {
+  const state = qmGame.startGame();
+  const stage = qmGame.showStage(state);
+
+  res.send(
+    JSON.stringify({
+      state: compressObject(state),
+      stageIngo: stage,
+    }),
+  );
+});
+
+app.listen(3001, "localhost", () => console.log("I'm Work!"));

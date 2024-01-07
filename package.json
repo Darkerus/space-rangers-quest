@@ -16,6 +16,7 @@
     "bezier-js": "^4.1.1",
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
+    "express": "^4.18.2",
     "firebase": "^8.6.1",
     "firebase-admin": "^9.8.0",
     "font-awesome": "^4.7.0",
@@ -35,6 +36,7 @@
   },
   "devDependencies": {
     "@types/deep-diff": "0.0.31",
+    "@types/express": "^4.17.21",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^1.0.0",
     "deep-diff": "^1.0.1",
