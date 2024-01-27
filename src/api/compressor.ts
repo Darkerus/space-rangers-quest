@@ -9,6 +9,5 @@ export function compressObject(obj: {}) {
 export function decompressToObject(str: string) {
   const compressed = Buffer.from(str, "base64");
   const decompressed = zlib.unzipSync(compressed).toString();
-  console.log(decompressed);
   return JSON.parse(decompressed);
 }

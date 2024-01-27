@@ -1,7 +1,10 @@
 import { GameState, QMPlayer } from "../lib/qmplayer";
 import { parse } from "../lib/qmreader";
 import fs from "fs";
-
+/**
+ * Данный клас является фасадом над QMPlayer
+ *
+ */
 export class QMStepGame {
   private readonly QMPlayer: QMPlayer;
   private readonly game: Buffer;
@@ -14,7 +17,6 @@ export class QMStepGame {
 
   startGame() {
     this.QMPlayer.start();
-    console.info(JSON.stringify(this.QMPlayer.getSaving));
     return this.QMPlayer.getSaving();
   }
 
