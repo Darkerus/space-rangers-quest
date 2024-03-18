@@ -24,6 +24,7 @@ export function prepareRouter(qmStepGame: QMStepGame) {
       res.send(
         JSON.stringify({
           state: compressObject(newState),
+          locationId: newState.locationId || null,
           stageInfo: newStage,
         }),
       );
